@@ -6,13 +6,10 @@ package MyServlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +31,13 @@ public class SaveServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
-     * 
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         //b1. Lấy giá trị tham số từ Client
         String uname = request.getParameter("uname");
+        PrintWriter out = response.getWriter();
         String upass = request.getParameter("upass");
         String email = request.getParameter("email");
         String country = request.getParameter("country");
@@ -65,19 +62,10 @@ public class SaveServlet extends HttpServlet {
             int kq = ps.executeUpdate();
             //5. Xử lý kết quả trả về
             if(kq>0){
-                out.println("<h2>Thêm mới user thành công</h2>");
-            } else
-            {
-                out.println("<h2>Thêm mới user thất bại</h2>");
+                out.println("<h2>Thêm mới user thành công");
             }
-            //6. Đóng kết nối
-            conn.close();
-        } catch(Exception e){
-            System.out.println("Loi:" + e.toString());
-            out.println("<h2>Thêm user thất bại</h2>");
+        }     
         }
-        //Chèn nội dung của trang index.html vào phẩn hồi kết quả
-        request.getRequestDispatcher("index.html").include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -92,13 +80,7 @@ public class SaveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -112,13 +94,7 @@ public class SaveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
